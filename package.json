@@ -1,0 +1,29 @@
+{
+  "name": "pvr-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "Sharkwing",
+  "license": "ISC",
+  "dependencies": {
+    "http-proxy": "^1.17.0",
+    "node-static": "^0.7.11",
+    "pm2": "^3.5.1"
+  },
+  "devDependencies": {
+    "electron": "^5.0.4",
+    "electron-builder": "^20.43.0"
+  },
+  "build": {
+    "appId": "com.sharkwing.pvr-server",
+    "win": {
+      "target": "nsis"
+    }
+  }
+}
