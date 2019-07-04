@@ -56,7 +56,7 @@ server.on('error', function(err, req, res) {
   res.writeHead(500, { 
     'Content-Type': 'text/plain'
   });
-  res.end('An error occurred:' + err);
+  res.end('An error occurred: ' + err);
 })
 
-server.listen(9090); // Some ports (e.g. 80) may require admin privileges
+server.listen(80); // Some ports (e.g. 80) may require admin privileges
