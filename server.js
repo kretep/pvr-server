@@ -45,7 +45,11 @@ let server = http.createServer(function (req, res) {
     }, 1);
   }
   else {
-    fileServer.serve(req, res);
+    fileServer.serve(req, res, function (e, r) {
+      if (e && (e.status === 404)) { // Catch-all in case file is not found
+          fileServer.serveFile('index.html', 200, {}, req, res);
+      }
+    });
     /*proxy.web(req, res, {
       target: 'http://localhost:3000'
     });*/
