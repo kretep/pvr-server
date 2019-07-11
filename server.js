@@ -44,6 +44,14 @@ let server = http.createServer(function (req, res) {
       });
     }, 1);
   }
+  else if (req.url === '/version') {
+    res.write(JSON.stringify({ 
+      name: process.env.npm_package_name,
+      version: process.env.npm_package_version,
+      githead: process.env.npm_package_gitHead
+    }));
+    res.end();
+  }
   else {
     fileServer.serve(req, res, function (e, r) {
       if (e && (e.status === 404)) { // Catch-all in case file is not found
