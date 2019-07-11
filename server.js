@@ -9,6 +9,19 @@ var http = require('http');
 var httpProxy = require('http-proxy');
 var static = require('node-static');
 var path = require('path');
+var fs = require('fs');
+
+// Read environment variables from file
+// (Saved before run or build, included in pkg executable)
+let env = {};
+fs.readFile(path.join(__dirname, '.env.json'), 'utf8', (err, data) => {
+  if (err) {
+    console.log("Error reading environment variables: " + err);
+  }
+  else {
+    env = JSON.parse(data);
+  }
+});
 
 var proxy = httpProxy.createProxyServer();
 var fileServer = new static.Server(path.join(__dirname, 'app/'));
@@ -46,9 +59,9 @@ let server = http.createServer(function (req, res) {
   }
   else if (req.url === '/version') {
     res.write(JSON.stringify({ 
-      name: process.env.npm_package_name,
-      version: process.env.npm_package_version,
-      githead: process.env.npm_package_gitHead
+      name: env.APP_NAME,
+      version: env.APP_VERSION,
+      githead: env.APP_GITHEAD
     }));
     res.end();
   }

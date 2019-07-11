@@ -4,8 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "build": "pkg -t node8-win-x64 ."
+    "start": "npm run build-env && node server.js",
+    "build": "npm run build-env && pkg -t node8-win-x64 .",
+    "build-env": "node build-env.js"
   },
   "author": "Sharkwing",
   "license": "ISC",
@@ -13,9 +14,15 @@
     "http-proxy": "^1.17.0",
     "node-static": "^0.7.11"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "dotenv": "^8.0.0",
+    "dotenv-expand": "^5.1.0"
+  },
   "bin": "server.js",
   "pkg": {
-    "assets": "app/**/*"
+    "assets": [
+      "app/**/*",
+      ".env.json"
+    ]
   }
 }
