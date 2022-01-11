@@ -66,22 +66,33 @@ let server = http.createServer(function (req, res) {
     res.end();
   }
   else {
-    fileServer.serve(req, res, function (e, r) {
-      if (e && (e.status === 404)) { // Catch-all in case file is not found
-          fileServer.serveFile('index.html', 200, {}, req, res);
-      }
-    });
-    /*proxy.web(req, res, {
-      target: 'http://localhost:3000'
-    });*/
+    if (process.env.NODE_ENV === 'development') {
+      // Redirect to running react app
+      proxy.web(req, res, {
+        target: 'http://localhost:3000'
+      });
+    }
+    else {
+      // Serve static files in app directory
+      fileServer.serve(req, res, function (e, r) {
+        if (e && (e.status === 404)) { // Catch-all in case file is not found
+            fileServer.serveFile('index.html', 200, {}, req, res);
+        }
+      });
+    }
   }
 })
 
-server.on('error', function(err, req, res) {
-  res.writeHead(500, { 
-    'Content-Type': 'text/plain'
-  });
-  res.end('An error occurred: ' + err);
-})
+// server.on('error', function(err, req, res) {
+//   res.writeHead(500, { 
+//     'Content-Type': 'text/plain'
+//   });
+//   res.end('An error occurred: ' + err);
+// })
 
-server.listen(80); // Some ports (e.g. 80) may require admin privileges
+if (process.env.NODE_ENV === 'development') {
+  server.listen(9090);
+}
+else {
+  server.listen(80); // Some ports (e.g. 80) may require admin privileges
+}
